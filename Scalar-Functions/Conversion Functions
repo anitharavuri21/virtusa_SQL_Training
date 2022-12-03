@@ -1,0 +1,13 @@
+select to_char(to_date('04-11-22'),'DD-Month-year') from dual;
+
+select to_date('04-11-22','fmDD-MM-YY') from dual;
+
+select to_number('000412') from dual
+
+SELECT CONVERT(int, 25.65);
+
+SELECT CONVERT(varchar, 25.65);
+
+SELECT CONVERT(datetime, '2022-08-26');
+
+SELECT CONVERT(varchar, '2022-08-26', 101);
