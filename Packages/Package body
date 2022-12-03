@@ -1,0 +1,85 @@
+Package body – learn how to create a package body.
+
+create or replace package id5d9 as 
+procedure find_dept(eno in emp.empno%type, dno out emp.deptno%type);
+end id5d9;
+
+create or replace package body id5d9 as
+procedure find_dept(eno in emp.empno%type, dno out emp.deptno%type) as
+begin
+select deptno into dno from emp where empno=eno;
+end find_dept;
+end id5d9;
+
+set serveroutput on;
+declare
+user_eno  emp.empno%type:= &u_empno;
+user_dno emp.deptno%type;
+begin
+id5d9.find_dept(user_eno,user_dno);
+dbms_output.put_line('The department number of your requested employee number '||user_dno);
+end;
+
+drop package id5d9;
+
+
+create or replace package id5d9 as 
+procedure find_dept(eno in emp.empno%type, dno out emp.deptno%type);
+procedure update_sal(eno in emp.empno%type,incr number, salary out emp.sal%type);
+function count_emp(emp_dept  emp.deptno%type) return number;
+function high_sal_deptwise(emp_dept emp.deptno%type) return number;
+end id5d9;
+
+
+create or replace package body id5d9 as
+procedure find_dept(eno in emp.empno%type, dno out emp.deptno%type) as
+begin
+select deptno into dno from emp where empno=eno;
+end find_dept;
+procedure update_sal(eno in emp.empno%type,incr in number, salary out emp.sal%type) as
+begin 
+update emp set sal= sal+incr where empno=eno;
+select sal into salary from emp where empno=eno;
+end update_sal;
+function count_emp(emp_dept  emp.deptno%type) return number 
+is
+num_of_emp number(2);
+begin 
+select count(*) into num_of_emp from emp where deptno=emp_dept;
+return num_of_emp;
+end count_emp;
+function high_sal_deptwise(emp_dept emp.deptno%type) return number
+is
+max_sal number(5);
+begin
+select max(sal) into max_sal from emp where deptno=emp_dept;
+return max_sal;
+end high_sal_deptwise;
+end id5d9;
+
+
+set serveroutput on;
+declare
+user_eno emp.empno%type:=&user_empno;
+user_dno emp.deptno%type;
+res_dno emp.deptno%type;
+sal_incr number(4);
+user_job emp.jobn%type;
+user_sal emp.sal%type;
+dept_strength number(2);
+dept_high_sal number(5);
+begin
+id5d9.find_dept(user_eno,res_dno);
+dbms_output.put_line('The department number of your requested employee number '||res_dno);
+user_eno:=&user_empno;
+select sal into user_sal from emp where empno=user_eno;
+dbms_output.put_line('The salary of the requested user is '||user_sal);
+sal_incr:=&increment;
+id5d9.update_sal(user_eno,sal_incr,user_sal);
+dbms_output.put_line('The salary of the  user is updated to '||user_sal);
+user_dno:=&user_deptno;
+dept_strength:=id5d9.count_emp(user_dno);
+dbms_output.put_line('The number of employees in the requested deparment '||dept_strength);
+dept_high_sal:=id5d9.high_sal_deptwise(user_dno);
+dbms_output.put_line('The maximum salary in the requested department '||dept_high_sal);
+end;
