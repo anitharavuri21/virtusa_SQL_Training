@@ -1,0 +1,1 @@
+select empno, ename, comm from emp where comm is null
