@@ -1,5 +1,46 @@
 IF statements – introduce you various IF statement to either execute or skip a sequence of statements based on a condition.
 
+set serveroutput on;
+declare
+num_large number :=5;
+num_small number :=8;
+begin
+if num_large<num_small then
+    num_large := num_large+num_small;
+    num_small:=num_large-num_small;
+    num_large:=num_large-num_small;
+end if;
+dbms_output.put_line('large num: '||num_large||' '||'small num: '||num_small);
+end;
+
+set serveroutput on;
+declare 
+num1 number:=&a;
+begin
+if mod(num1,2)=0 then
+    dbms_output.put_line('given number is even');
+else
+    dbms_output.put_line('given number is odd');
+end if;
+end;
+
+set serveroutput on;
+declare 
+sal_achieve number(6);
+target_qty number(6);
+emp_id number(5):=&n;
+incentive number:=0;
+begin
+if sal_achieve>(target_qty+200) then
+    incentive :=(sal_achieve-target_qty)/4;
+else
+    incentive:=75;
+end if;
+dbms_output.put_line('incentive='||incentive);
+update emp set sal=sal+incentive where empno=emp_id;
+dbms_output.put_line(emp_id);
+end;
+
 SET SERVEROUTPUT ON
 DECLARE
 num_small number(3):= &A;
