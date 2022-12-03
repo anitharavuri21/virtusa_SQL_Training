@@ -1,1 +1,2 @@
-select empno, ename, comm from emp where comm is null
+select empno, ename, comm from emp
+where comm is null
