@@ -15,3 +15,53 @@ dbms_output.put_line(eno||'   '||name||'  '||salary);
 end loop;
 close emprec;
 end;
+
+---- Example-1
+
+set serveroutput on;
+declare
+cursor emp_cur is select empno,ename from emp where deptno=30;
+eno emp.empno%type;
+en emp.ename%type;
+begin
+open emp_cur;
+loop
+    fetch emp_cur into eno,en;
+    exit when emp_cur%notfound;
+    dbms_output.put_line(eno||' '||en);
+end loop;
+close emp_cur;
+end;
+
+
+---- Example-2
+
+set serveroutput on;
+declare
+cursor emp_cur(dno number) is select empno,ename,jobn from emp where deptno=dno;
+eno emp.empno%type;
+en emp.ename%type;
+ejob emp.jobn%type;
+begin
+open emp_cur(10);
+loop
+fetch emp_cur into eno,en,ejob;
+exit when emp_cur%notfound;
+dbms_output.put_line(eno||' '||en||' '||ejob);
+end loop;
+close emp_cur;
+open emp_cur(20);
+loop
+fetch emp_cur into eno,en,ejob;
+exit when emp_cur%notfound;
+dbms_output.put_line(eno||' '||en||' '||ejob);
+end loop;
+close emp_cur;
+open emp_cur(30);
+loop
+fetch emp_cur into eno,en,ejob;
+exit when emp_cur%notfound;
+dbms_output.put_line(eno||' '||en||' '||ejob);
+end loop;
+close emp_cur;
+end;
