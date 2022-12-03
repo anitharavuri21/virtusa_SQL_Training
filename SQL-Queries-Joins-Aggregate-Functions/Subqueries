@@ -1,0 +1,6 @@
+select * from(select * from emp order by sal desc)emp where rownum<=3;
+
+select* from(select * from emp where rownum<=5)emp where rownum<=12;
+
+SELECT * FROM dept WHERE Faculty_ID IN (   
+SELECT Faculty_ID FROM Faculty WHERE City = 'Tadepalligudem' OR City = 'Hyderabad' ) ; 
