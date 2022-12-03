@@ -1,0 +1,136 @@
+create view emp_view as select * from emp;
+
+select * from emp;
+
+create view empdept_det as select e.ename,e.deptno,d.dname,d.dloc from emp e,dept d where e.deptno=d.deptno;
+
+select * from empdept_det;
+
+alter table emp add esal number(5);
+
+UPDATE emp SET esal = 700 WHERE eno=5;
+
+create view calculations as select deptno, min(esal) as "MIN SAL", max(esal) as "MAX SAL", avg(esal) as "AVG SAL" from emp group by deptno;
+
+select * from calculations;
+
+create index my_index on emp(eno,ename);
+
+select * from emp;
+
+select*from (select* from emp order by sal desc) emp where rownum<2;
+create sequence firstseq 
+    increment by 10
+    minvalue 0
+    maxvalue 20
+    nocycle;
+select firstseq.currval from dual;
+create table names(sno number(2), name varchar2(20));
+insert into names values(firstseq.nextval,'abc');
+insert into names values(firstseq.nextval,'hii');
+insert into names values(firstseq.nextval,'hlo');
+alter sequence firstseq increment by 1;
+alter sequence firstseq maxvalue 100;
+select * from names;
+create sequence seq2
+    maxvalue 20
+    minvalue 0
+    increment by 5
+    cycle
+    nocache;
+select seq2.nextval from dual;
+drop sequence seq2;
+select * from emp;
+create index ind1 on emp(empno);
+select * from user_indexes where table_name='EMP';
+select empno,ename from emp where empno<25000;
+drop index ind1;
+create view v1 as select empno,ename,deptno from emp where deptno=30;
+select* from v1;
+create view v2 as select e.empno, e.ename, d.deptno,d.loc from emp e,dept d where e.deptno=d.deptno;
+select * from v2;
+create view v3 as select empno,ename,deptno,loc from v2 where deptno=20;
+select * from v3;
+insert into v1 values(1234,'ANITHA',20);
+create view viewagg as select avg(sal)"avgsal",max(sal)"maxsal",min(sal)"minsal" from emp group by deptno;
+select * from viewagg;
+grant alter,select on v1 to system;
+create table xxx(rollno varchar2(10),name varchar2(20));
+create sequence xxseq
+    minvalue 500
+    increment by 1
+    maxvalue 600;
+insert into xxx values(concat('19K61A0',xxseq.nextval),'anitha');
+insert into xxx values(concat('19K61A0',xxseq.nextval),'lavanya');
+insert into xxx values(concat('19K61A0',xxseq.nextval),'ravuri');
+insert into xxx values(concat('19K61A0',xxseq.nextval),'deepak');
+insert into xxx values(concat('19K61A0',xxseq.nextval),'deepika');
+insert into xxx values(concat('19K61A0',xxseq.nextval),'prameela');
+insert into xxx values(concat('19K61A0',xxseq.nextval),'amani');
+insert into xxx values(concat('19K61A0',xxseq.nextval),'monisha');
+select * from xxx;
+
+create view empdept_det as select e.ename,e.deptno,d.dname,d.dloc from emp e,dept d where e.deptno=d.deptno;
+
+select * from empdept_det;
+
+create view emp_view as select * from emp;
+
+select * from emp;
+
+drop empdept_det;
+
+create view sample1 as select eno,ename from emp; 
+
+select * from sample1;
+
+insert into sample1 values(6,'VEDA');
+insert into sample1 values(7,'DEV');
+insert into sample1 values(8,'SRII');
+
+select * from emp;
+
+create sequence dept_seq1 
+        increment by 1
+        start with 1
+        minvalue 1
+        maxvalue 20
+        nocycle
+        nocache;
+        
+truncate table dept;
+
+INSERT INTO dept VALUES(dept_seq1.nextval,'TARUN',150);
+INSERT INTO dept VALUES(dept_seq1.nextval,'MAHIT',200);
+INSERT INTO dept VALUES(dept_seq1.nextval,'KAVYA',300);
+INSERT INTO dept VALUES(dept_seq1.nextval,'LAHAR',150);
+INSERT INTO dept VALUES(dept_seq1.nextval,'RUCHI',200);
+INSERT INTO dept VALUES(dept_seq1.nextval,'SRAVA',500);
+
+desc dept;
+
+
+select dept_seq1.nextval from dual;
+
+select * from dept;
+
+create table student( rollno number(5), sname varchar2(10));
+
+create sequence roll_seq1 
+        increment by 1
+        start with 501
+        minvalue 1
+        maxvalue 520
+        nocycle
+        nocache;
+        
+insert into student values(roll_seq1.nextval,'DEVI');
+insert into student values(roll_seq1.nextval,'JAGGU');
+insert into student values(roll_seq1.nextval,'SRI');
+insert into student values(roll_seq1.nextval,'SRAVANI');
+
+select * from student;
+
+select 
+
+SELECT rollno,sname, CONCAT('19K61A0',rollno) regid FROM student order by rollno;
