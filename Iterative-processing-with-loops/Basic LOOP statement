@@ -1,0 +1,38 @@
+Basic LOOP statement – show you how to use the basic LOOP statement to execute a sequence of code multiple times.
+
+set serveroutput on;
+declare
+x number(3);
+begin
+for a in 1..5 loop
+    for b in 1..5 loop
+        x:=a*b;
+        exit when x>15;
+        dbms_output.put_line(x);
+        end loop;
+end loop;
+end;
+
+set serveroutput on;
+declare
+begin
+for a in 10..20 loop
+    continue when mod(a,2)=0;
+    dbms_output.put_line(a);
+end loop;
+end;
+
+set serveroutput on
+declare
+a number := '&A_NUM';
+b number := 0;
+begin
+    dbms_output.put_line('This is from outside of the block');
+    dbms_output.put_line('The given value is '||a);
+    LOOP
+        b := b+1;
+        dbms_output.put_line('This is from inside of the block');
+        dbms_output.put_line('The given value is '||a);
+        EXIT;
+   END LOOP;
+end;
