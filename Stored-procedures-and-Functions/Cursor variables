@@ -1,0 +1,73 @@
+---- Example-1
+
+set serveroutput on;
+declare
+cursor emp_cur is select empno,ename from emp where deptno=30;
+eno emp.empno%type;
+en emp.ename%type;
+begin
+open emp_cur;
+loop
+    fetch emp_cur into eno,en;
+    exit when emp_cur%notfound;
+    dbms_output.put_line(eno||' '||en);
+end loop;
+close emp_cur;
+end;
+
+
+---- Example-2
+
+set serveroutput on;
+declare
+cursor emp_cur(dno number) is select empno,ename,jobn from emp where deptno=dno;
+eno emp.empno%type;
+en emp.ename%type;
+ejob emp.jobn%type;
+begin
+open emp_cur(10);
+loop
+fetch emp_cur into eno,en,ejob;
+exit when emp_cur%notfound;
+dbms_output.put_line(eno||' '||en||' '||ejob);
+end loop;
+close emp_cur;
+open emp_cur(20);
+loop
+fetch emp_cur into eno,en,ejob;
+exit when emp_cur%notfound;
+dbms_output.put_line(eno||' '||en||' '||ejob);
+end loop;
+close emp_cur;
+open emp_cur(30);
+loop
+fetch emp_cur into eno,en,ejob;
+exit when emp_cur%notfound;
+dbms_output.put_line(eno||' '||en||' '||ejob);
+end loop;
+close emp_cur;
+end;
+
+---- Example-3
+
+create or replace procedure emp_p_cur(p_job varchar2, emp_refcur in out sys_refcursor)as
+begin 
+open emp_refcur for select empno,ename,deptno from emp where jobn=p_job;
+end;
+ 
+set serveroutput on;
+declare 
+ v_eno emp.empno%type;
+ v_en emp.ename%type;
+ v_job emp.jobn%type:='CLERK';
+ v_dept emp.deptno%type;
+ v_refcur sys_refcursor;
+begin
+ emp_p_cur(v_job,v_refcur);
+ loop
+ fetch v_refcur into v_eno,v_en,v_job;
+ dbms_output.put_line(v_eno||' '||v_en||' '||v_job);
+ exit when v_refcur%notfound;
+ end loop;
+ close v_refcur;
+ end;
