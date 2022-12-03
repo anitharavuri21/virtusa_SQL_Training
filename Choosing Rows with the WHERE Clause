@@ -1,0 +1,5 @@
+select * from(select * from emp order by sal desc)emp where rownum<=3;
+select * from emp where rownum<=14
+minus
+select * from emp where rownum<=13;
+select* from(select * from emp where rownum<=5)emp where rownum<=12;
